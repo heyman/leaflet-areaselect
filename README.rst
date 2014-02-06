@@ -3,10 +3,14 @@ Leaflet AreaSelect
 ==================
 
 AreaSelect is a leaflet plugin for letting users select a square area (bounding box), 
-using a resizable centered box on top of the map.
+using a resizable centered box on top of the map. 
 
 .. image:: https://s3-eu-west-1.amazonaws.com/heyman.info/screenshots/leaflet-areaselect.jpg
     :alt: longitude.me
+
+Another similar plugin is `leaflet-locationfilter <https://github.com/kajic/leaflet-locationfilter/>`_, 
+which solves the same problem but provides a rectangle that is movable and not fixed to the center, 
+but doesn't support keeping the aspect ratio. 
 
 
 Example Code
