@@ -1,5 +1,5 @@
 ==================
-Leaflet UserMarker
+Leaflet AreaSelect
 ==================
 
 AreaSelect is a leaflet plugin for letting users select a square area (bounding box), 
