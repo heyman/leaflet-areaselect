@@ -1,0 +1,30 @@
+* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#map {
+    width: 100%;
+    height: calc(100% - 150px);
+}
+
+#result {
+    background: #fff;
+    padding: 20px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 150px;
+    
+    -webkit-box-shadow: 0 -1px 15px rgba(0,0,0, 0.2);
+    box-shadow: 0 -1px 15px rgba(0,0,0, 0.2);
+}
+
+#result input[type='text'] {
+    width: 260px;
+}
