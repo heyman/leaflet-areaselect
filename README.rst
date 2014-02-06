@@ -5,7 +5,7 @@ Leaflet AreaSelect
 AreaSelect is a leaflet plugin for letting users select a square area (bounding box), 
 using a resizable centered box on top of the map.
 
-.. image:: https://images.weserv.nl/?url=static.longitude.me/img/opengraph-image.jpg
+.. image:: https://s3-eu-west-1.amazonaws.com/heyman.info/screenshots/leaflet-areaselect.jpg
     :alt: longitude.me
 
 
