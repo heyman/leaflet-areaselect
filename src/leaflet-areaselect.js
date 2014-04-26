@@ -109,8 +109,8 @@ L.AreaSelect = L.Class.extend({
     _render: function () {
         var size = this._map.getSize();
         var offset = this._handles[0].offsetWidth;
-        this._width  = Math.min(size.x-offset, Math.max(offset, this._width));
-        this._height = Math.min(size.y-offset, Math.max(offset, this._height));
+        this._width  = Math.round(Math.min(size.x-offset, Math.max(offset, this._width)));
+        this._height = Math.round(Math.min(size.y-offset, Math.max(offset, this._height)));
         if (this.options.aspectRatio) {
               var aspectRatio = this._width / this._height;
             if (aspectRatio > this.options.aspectRatio) {
@@ -119,15 +119,15 @@ L.AreaSelect = L.Class.extend({
                 this._height = Math.round(this._width / this.options.aspectRatio);
             }
         }
-        var n = (size.y - this._height)/2;
-        var s = (size.y + this._height)/2;
-        var e = (size.x + this._width )/2;
-        var w = (size.x - this._width )/2;
+        var n = Math.round((size.y - this._height)/2);
+        var w = Math.round((size.x - this._width )/2);
+        var s = n + this._height;
+        var e = w + this._width;
         this._setDimensions(this._shades[0], 0, 0, size.x, n);
         this._setDimensions(this._shades[1], 0, n, w, this._height);
-        this._setDimensions(this._shades[2], e, n, w, this._height);
-        this._setDimensions(this._shades[3], 0, s, size.x, n);
-        offset /= 2;
+        this._setDimensions(this._shades[2], e, n, size.x-e, this._height);
+        this._setDimensions(this._shades[3], 0, s, size.x, size.y-s);
+        offset = Math.round(offset / 2);
         n -= offset;
         s -= offset;
         e -= offset;
