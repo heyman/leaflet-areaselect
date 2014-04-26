@@ -2,27 +2,25 @@ L.AreaSelect = L.Class.extend({
     includes: L.Mixin.Events,
     
     options: {
-        width: 200,
-        height: 300,
+        width: null,
+        height: null,
         keepAspectRatio: false,
+        aspectRatio : null,
     },
 
     initialize: function(options) {
         L.Util.setOptions(this, options);
-        
         this._width = this.options.width;
         this._height = this.options.height;
     },
     
     addTo: function(map) {
-        this.map = map;
-        this._createElements();
-        this._render();
+        map.addLayer(this);
         return this;
     },
-    
+
     getBounds: function() {
-        var size = this.map.getSize();
+        var size = this._map.getSize();
         var topRight = new L.Point();
         var bottomLeft = new L.Point();
         
@@ -31,138 +29,117 @@ L.AreaSelect = L.Class.extend({
         topRight.x = size.x - bottomLeft.x;
         bottomLeft.y = size.y - topRight.y;
         
-        var sw = this.map.containerPointToLatLng(bottomLeft);
-        var ne = this.map.containerPointToLatLng(topRight);
+        var sw = this._map.containerPointToLatLng(bottomLeft);
+        var ne = this._map.containerPointToLatLng(topRight);
         
         return new L.LatLngBounds(sw, ne);
     },
-    
+
     remove: function() {
-        this.map.off("moveend", this._onMapChange);
-        this.map.off("zoomend", this._onMapChange);
-        this.map.off("resize", this._onMapResize);
-        
-        this._container.remove();
+        this._map.removeLayer(this);
     },
-    
-    _createElements: function() {
-        if (!!this._container)
-            return;
-        
-        this._container = L.DomUtil.create("div", "leaflet-areaselect-container", this.map._controlContainer)
-        this._topShade = L.DomUtil.create("div", "leaflet-areaselect-shade", this._container);
-        this._bottomShade = L.DomUtil.create("div", "leaflet-areaselect-shade", this._container);
-        this._leftShade = L.DomUtil.create("div", "leaflet-areaselect-shade", this._container);
-        this._rightShade = L.DomUtil.create("div", "leaflet-areaselect-shade", this._container);
-        
-        this._nwHandle = L.DomUtil.create("div", "leaflet-areaselect-handle", this._container);
-        this._swHandle = L.DomUtil.create("div", "leaflet-areaselect-handle", this._container);
-        this._neHandle = L.DomUtil.create("div", "leaflet-areaselect-handle", this._container);
-        this._seHandle = L.DomUtil.create("div", "leaflet-areaselect-handle", this._container);
-        
-        this._setUpHandlerEvents(this._nwHandle);
-        this._setUpHandlerEvents(this._neHandle, -1, 1);
-        this._setUpHandlerEvents(this._swHandle, 1, -1);
-        this._setUpHandlerEvents(this._seHandle, -1, -1);
-        
-        this.map.on("moveend", this._onMapChange, this);
-        this.map.on("zoomend", this._onMapChange, this);
-        this.map.on("resize", this._onMapResize, this);
-        
-        this.fire("change");
-    },
-    
-    _setUpHandlerEvents: function(handle, xMod, yMod) {
-        xMod = xMod || 1;
-        yMod = yMod || 1;
-        
-        var self = this;
-        function onMouseDown(event) {
-            event.stopPropagation();
-            L.DomEvent.removeListener(this, "mousedown", onMouseDown);
-            var curX = event.x;
-            var curY = event.y;
-            var ratio = self._width / self._height;
-            var size = self.map.getSize();
-            
-            function onMouseMove(event) {
-                if (self.options.keepAspectRatio) {
-                    var maxHeight = (self._height >= self._width ? size.y : size.y * (1/ratio) ) - 30;
-                    self._height += (curY - event.originalEvent.y) * 2 * yMod;
-                    self._height = Math.max(30, self._height);
-                    self._height = Math.min(maxHeight, self._height);
-                    self._width = self._height * ratio;
-                } else {
-                    self._width += (curX - event.originalEvent.x) * 2 * xMod;
-                    self._height += (curY - event.originalEvent.y) * 2 * yMod;
-                    self._width = Math.max(30, self._width);
-                    self._height = Math.max(30, self._height);
-                    self._width = Math.min(size.x-30, self._width);
-                    self._height = Math.min(size.y-30, self._height);
-                    
-                }
-                
-                curX = event.originalEvent.x;
-                curY = event.originalEvent.y;
-                self._render();
-            }
-            function onMouseUp(event) {
-                L.DomEvent.removeListener(self.map, "mouseup", onMouseUp);
-                L.DomEvent.removeListener(self.map, "mousemove", onMouseMove);
-                L.DomEvent.addListener(handle, "mousedown", onMouseDown);
-                self.fire("change");
-            }
-            
-            L.DomEvent.addListener(self.map, "mousemove", onMouseMove);
-            L.DomEvent.addListener(self.map, "mouseup", onMouseUp);
+
+    onAdd: function (map) {
+        this._map = map;
+
+        size = map.getSize();
+        if (! this._width) this._width = size.x / 2;
+        if (! this._height) this._height = size.y / 2;
+        if (this.options.keepAspectRatio && (!this.options.aspectRatio)) {
+            this.options.aspectRatio = this._width / this._height;
         }
-        L.DomEvent.addListener(handle, "mousedown", onMouseDown);
+
+        this._shades = [];
+        for(var i=0; i<4; i++) this._shades.push(this._createShade());
+
+        this._handles = [
+            this._createHandle( 1, 1),
+            this._createHandle( 1,-1),
+            this._createHandle(-1, 1),
+            this._createHandle(-1,-1),
+        ];
+        this._shades.concat(this._handles).forEach(function(elem) {
+            map.getPanes().overlayPane.appendChild(elem);
+        });
+        this._render();
+        map.on('viewreset', this._render, this);
+        map.on('move', this._render, this);
     },
-    
-    _onMapResize: function() {
+
+    _createHandle: function(dx,dy) {
+        var that = this;
+        var handle = L.DomUtil.create('div', 'leaflet-areaselect-handle');
+        var drag = new L.Draggable(handle);
+        drag.on('drag', function(e) {that._onHandleDrag(e, handle,  dx, dy);}).enable();
+        return handle;
+    },
+
+    _createShade: function() {
+        return L.DomUtil.create('div', 'leaflet-areaselect-shade');
+    },
+
+
+    onRemove: function (map) {
+        this._handles.concat(this._shades).forEach(function(elem) {
+                map.getPanes().overlayPane.removeChild(elem);
+        });
+        map.off('viewreset', this._render, this);
+        map.off('move', this._render, this);
+    },
+
+    _onHandleDrag: function(e, handle, dx, dy) {
+        var p = this._map.layerPointToContainerPoint(L.DomUtil.getPosition(handle));
+        var offset = handle.offsetWidth;
+        var size = this._map.getSize();
+        this._width  = (offset + p.x*2 - size.x) * dx;
+        this._height = (offset + p.y*2 - size.y) * dy;
         this._render();
     },
-    
-    _onMapChange: function() {
+
+    _setPosition: function (element, x,y) {
+        L.DomUtil.setPosition(element, this._map.containerPointToLayerPoint(new L.Point(x,y)));
+    },
+
+    _setDimensions: function (element, x, y, w, h) {
+        this._setPosition(element,x, y);
+        element.style.width = w + "px";
+        element.style.height = h + "px";
+    },
+
+    _render: function () {
+        var size = this._map.getSize();
+        var offset = this._handles[0].offsetWidth;
+        this._width  = Math.round(Math.min(size.x-offset, Math.max(offset, this._width)));
+        this._height = Math.round(Math.min(size.y-offset, Math.max(offset, this._height)));
+        if (this.options.aspectRatio) {
+              var aspectRatio = this._width / this._height;
+            if (aspectRatio > this.options.aspectRatio) {
+                this._width = Math.round(this._height * this.options.aspectRatio);
+            } else {
+                this._height = Math.round(this._width / this.options.aspectRatio);
+            }
+        }
+        var n = Math.round((size.y - this._height)/2);
+        var w = Math.round((size.x - this._width )/2);
+        var s = n + this._height;
+        var e = w + this._width;
+        this._setDimensions(this._shades[0], 0, 0, size.x, n);
+        this._setDimensions(this._shades[1], 0, n, w, this._height);
+        this._setDimensions(this._shades[2], e, n, size.x-e, this._height);
+        this._setDimensions(this._shades[3], 0, s, size.x, size.y-s);
+        offset = Math.round(offset / 2);
+        n -= offset;
+        s -= offset;
+        e -= offset;
+        w -= offset;
+        this._setPosition(this._handles[0], e, s);
+        this._setPosition(this._handles[1], e, n);
+        this._setPosition(this._handles[2], w, s);
+        this._setPosition(this._handles[3], w, n);
         this.fire("change");
     },
-    
-    _render: function() {
-        var size = this.map.getSize();
-        var handleOffset = Math.round(this._nwHandle.offsetWidth/2);
-        
-        var topBottomHeight = Math.round((size.y-this._height)/2);
-        var leftRightWidth = Math.round((size.x-this._width)/2);
-        
-        function setDimensions(element, dimension) {
-            element.style.width = dimension.width + "px";
-            element.style.height = dimension.height + "px";
-            element.style.top = dimension.top + "px";
-            element.style.left = dimension.left + "px";
-            element.style.bottom = dimension.bottom + "px";
-            element.style.right = dimension.right + "px";
-        }
-        
-        setDimensions(this._topShade, {width:size.x, height:topBottomHeight, top:0, left:0});
-        setDimensions(this._bottomShade, {width:size.x, height:topBottomHeight, bottom:0, left:0});
-        setDimensions(this._leftShade, {
-            width: leftRightWidth, 
-            height: size.y-(topBottomHeight*2), 
-            top: topBottomHeight, 
-            left: 0
-        });
-        setDimensions(this._rightShade, {
-            width: leftRightWidth, 
-            height: size.y-(topBottomHeight*2), 
-            top: topBottomHeight, 
-            right: 0
-        });
-        
-        setDimensions(this._nwHandle, {left:leftRightWidth-handleOffset, top:topBottomHeight-7});
-        setDimensions(this._neHandle, {right:leftRightWidth-handleOffset, top:topBottomHeight-7});
-        setDimensions(this._swHandle, {left:leftRightWidth-handleOffset, bottom:topBottomHeight-7});
-        setDimensions(this._seHandle, {right:leftRightWidth-handleOffset, bottom:topBottomHeight-7});
-    }
+
+
 });
 
 L.areaSelect = function(options) {
