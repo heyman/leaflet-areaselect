@@ -18,8 +18,10 @@ L.AreaSelect = L.Class.extend({
         this._height = this.options.height;
         this._minWidth = this.options.minWidth;
         this._minHeight = this.options.minHeight;
-        this._maxWidth = this.options.maxWidth - 5;
-        this._maxHeight = this.options.maxHeight - 5;
+        // pad the maximum size with the size of the handles,
+        // so that they are always fully visible
+        this._maxWidth = this.options.maxWidth - 28;
+        this._maxHeight = this.options.maxHeight - 28;
         this._keepAspectRatio = this.options.keepAspectRatio;
         if (this._keepAspectRatio)
             this._ratio = this._width / this._height;
@@ -83,12 +85,15 @@ L.AreaSelect = L.Class.extend({
         this.fire('change');
     },
 
+    'stopResize': function () {},
+
     '_setUpHandlerEvents': function (handle, xMod, yMod) {
         xMod = xMod || 1;
         yMod = yMod || 1;
 
         var self = this;
         function onMouseDown (event) {
+            console.log('onMouseDown');
             event.stopPropagation();
             L.DomEvent.removeListener(this, 'mousedown', onMouseDown);
             var curX = event.x;
@@ -96,41 +101,34 @@ L.AreaSelect = L.Class.extend({
             var size = self.map.getSize();
 
             function onMouseMove (event) {
-                self._width += (curX - event.originalEvent.x) * 1.5 * xMod;
-                self._height += (curY - event.originalEvent.y) * 1.5 * yMod;
+                console.log('onMouseMove');
+                self._width += (curX - event.originalEvent.x) * 2 * xMod;
+                self._height += (curY - event.originalEvent.y) * 2 * yMod;
 
-                // stick to maximum bounds ...
-                self._width = Math.min(self._maxWidth, self._width);
                 self._height = Math.min(self._maxHeight, self._height);
-                // .. and minimum bounds
-                self._width = Math.max(self._minWidth, self._width);
                 self._height = Math.max(self._minHeight, self._height);
 
-                if (self._keepAspectRatio) {
-                    // var maxHeight = Math.max((self._height >= self._width ? size.y : size.y * (1/ratio) ) - 30, this._maxHeight);
-                    // self._height += (curY - event.originalEvent.y) * 2 * yMod;
-                    // self._height = Math.max(30, self._height);
-                    // self._height = Math.min(maxHeight, self._height);
-                    // self._width = self._height * ratio;
-                    // self._width *= self._ratio;
-                    // self._height *= (1 / self._ratio);
-                    // self._width = Math.max(self._minWidth * self._ratio, self._width);
-                    // self._height = Math.max(self._minHeight * (1 / self._ratio), self._height);
-                }
+                if (self._keepAspectRatio)
+                    self._width = self._height * self._ratio;
+
+                self._width = Math.min(self._maxWidth, self._width);
+                self._width = Math.max(self._minWidth, self._width);
 
                 curX = event.originalEvent.x;
                 curY = event.originalEvent.y;
                 self._render();
             }
-            function onMouseUp(event) {
-                L.DomEvent.removeListener(self.map, 'mouseup', onMouseUp);
+            // accessible by the outside to allow other events (e.g. mouseouts)
+            // to stop the resizing process
+            self.stopResize = function () {
+                L.DomEvent.removeListener(self.map, 'mouseup', self.stopResize);
                 L.DomEvent.removeListener(self.map, 'mousemove', onMouseMove);
                 L.DomEvent.addListener(handle, 'mousedown', onMouseDown);
                 self.fire('change');
-            }
+            };
 
             L.DomEvent.addListener(self.map, 'mousemove', onMouseMove);
-            L.DomEvent.addListener(self.map, 'mouseup', onMouseUp);
+            L.DomEvent.addListener(self.map, 'mouseup', self.stopResize);
         }
         L.DomEvent.addListener(handle, 'mousedown', onMouseDown);
     },
