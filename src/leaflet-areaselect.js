@@ -93,7 +93,6 @@ L.AreaSelect = L.Class.extend({
 
         var self = this;
         function onMouseDown (event) {
-            console.log('onMouseDown');
             event.stopPropagation();
             L.DomEvent.removeListener(this, 'mousedown', onMouseDown);
             var curX = event.x;
@@ -101,7 +100,6 @@ L.AreaSelect = L.Class.extend({
             var size = self.map.getSize();
 
             function onMouseMove (event) {
-                console.log('onMouseMove');
                 self._width += (curX - event.originalEvent.x) * 2 * xMod;
                 self._height += (curY - event.originalEvent.y) * 2 * yMod;
 
