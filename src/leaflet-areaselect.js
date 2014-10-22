@@ -80,21 +80,21 @@ L.AreaSelect = L.Class.extend({
         function onMouseDown(event) {
             event.stopPropagation();
             L.DomEvent.removeListener(this, "mousedown", onMouseDown);
-            var curX = event.x;
-            var curY = event.y;
+            var curX = event.pageX;
+            var curY = event.pageY;
             var ratio = self._width / self._height;
             var size = self.map.getSize();
             
             function onMouseMove(event) {
                 if (self.options.keepAspectRatio) {
                     var maxHeight = (self._height >= self._width ? size.y : size.y * (1/ratio) ) - 30;
-                    self._height += (curY - event.originalEvent.y) * 2 * yMod;
+                    self._height += (curY - event.originalEvent.pageY) * 2 * yMod;
                     self._height = Math.max(30, self._height);
                     self._height = Math.min(maxHeight, self._height);
                     self._width = self._height * ratio;
                 } else {
-                    self._width += (curX - event.originalEvent.x) * 2 * xMod;
-                    self._height += (curY - event.originalEvent.y) * 2 * yMod;
+                    self._width += (curX - event.originalEvent.pageX) * 2 * xMod;
+                    self._height += (curY - event.originalEvent.pageY) * 2 * yMod;
                     self._width = Math.max(30, self._width);
                     self._height = Math.max(30, self._height);
                     self._width = Math.min(size.x-30, self._width);
@@ -102,8 +102,8 @@ L.AreaSelect = L.Class.extend({
                     
                 }
                 
-                curX = event.originalEvent.x;
-                curY = event.originalEvent.y;
+                curX = event.originalEvent.pageX;
+                curY = event.originalEvent.pageY;
                 self._render();
             }
             function onMouseUp(event) {
