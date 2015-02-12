@@ -42,7 +42,7 @@ L.AreaSelect = L.Class.extend({
         this.map.off("zoomend", this._onMapChange);
         this.map.off("resize", this._onMapResize);
         
-        this._container.remove();
+        this._container.parentNode.removeChild(this._container);
     },
     
     _createElements: function() {
