@@ -1,0 +1,8 @@
+{
+  "name": "leaflet-areaselect",
+  "main": "src/leaflet-areaselect.js",
+  "ignore": [
+    "**/.*",
+    "example",
+  ]
+}
