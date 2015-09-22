@@ -34,8 +34,14 @@
             $("#result .sw").val(bounds.getSouthWest().lat + ", " + bounds.getSouthWest().lng);
             $("#result .ne").val(bounds.getNorthEast().lat + ", " + bounds.getNorthEast().lng);
         });
+
+        areaSelect.on('areaClick', function() {
+            var bounds = this.getBounds();
+            alert('Button click alert! \n' + bounds.getSouthWest().lat + ", " + bounds.getSouthWest().lng + ' - ' + bounds.getNorthEast().lat + ", " + bounds.getNorthEast().lng);
+        });
+
         areaSelect.addTo(map);
-        
+
         $("#remove").click(function() {
             areaSelect.remove();
         });
