@@ -5,6 +5,11 @@ L.AreaSelect = L.Class.extend({
         width: 200,
         height: 300,
         keepAspectRatio: false,
+        btn: {
+            className: 'leaflet-areaselect-btn leaflet-areaselect-btn-navy leaflet-areaselect-btn-border-o',
+            position: 'bottom',
+            message: 'Select area...'
+        }
     },
 
     initialize: function(options) {
@@ -21,6 +26,11 @@ L.AreaSelect = L.Class.extend({
         return this;
     },
     
+    onBtnClick: function(e) {
+        L.DomEvent.stopPropagation(e);
+        this.fire("areaClick");
+    },
+
     getBounds: function() {
         var size = this.map.getSize();
         var topRight = new L.Point();
@@ -41,10 +51,21 @@ L.AreaSelect = L.Class.extend({
         this.map.off("moveend", this._onMapChange);
         this.map.off("zoomend", this._onMapChange);
         this.map.off("resize", this._onMapResize);
-        
+
         this._container.parentNode.removeChild(this._container);
+        this._container = null;
+    },
+
+    isVisible: function() {
+        return !!this._container;
     },
     
+    _createBtn: function() {
+        this._btn = L.DomUtil.create("div", this.options.btn.className, this._getBtnDiv());
+        this._btn.innerText = this.options.btn.message;
+        L.DomEvent.addListener(this._btn, 'click', this.onBtnClick, this);
+    },
+
     _createElements: function() {
         if (!!this._container)
             return;
@@ -59,6 +80,10 @@ L.AreaSelect = L.Class.extend({
         this._swHandle = L.DomUtil.create("div", "leaflet-areaselect-handle", this._container);
         this._neHandle = L.DomUtil.create("div", "leaflet-areaselect-handle", this._container);
         this._seHandle = L.DomUtil.create("div", "leaflet-areaselect-handle", this._container);
+
+        if(this.options.btn){
+            this._createBtn();
+        }
         
         this._setUpHandlerEvents(this._nwHandle);
         this._setUpHandlerEvents(this._neHandle, -1, 1);
@@ -70,6 +95,14 @@ L.AreaSelect = L.Class.extend({
         this.map.on("resize", this._onMapResize, this);
         
         this.fire("change");
+    },
+
+    _getBtnDiv: function() {
+        var btn = this.options.btn;
+
+        return (btn.position === 'bottom') ? this._bottomShade : 
+                (btn.position === 'top') ? this._topShade : 
+                (btn.position === 'left') ? this._leftShade : this._rightShade;
     },
     
     _setUpHandlerEvents: function(handle, xMod, yMod) {
