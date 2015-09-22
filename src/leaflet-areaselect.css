@@ -31,7 +31,8 @@
   color: #B8B8B8;
 }
 
-.leaflet-areaselect-btn-border-o:before, .leaflet-areaselect-btn-border-o:after {
+.leaflet-areaselect-btn-border-o:before, 
+.leaflet-areaselect-btn-border-o:after {
   content: '';
   border-style: solid;
   position: absolute;
@@ -66,10 +67,11 @@
   height: 100%;
 }
 
-.leaflet-areaselect-btn-border-o.btn-navy:before, .leaflet-areaselect-btn-border-o.btn-navy:after {
+.leaflet-areaselect-btn-border-o.leaflet-areaselect-btn-navy:before, 
+.leaflet-areaselect-btn-border-o.leaflet-areaselect-btn-navy:after {
   border-color: #34495e;
 }
 
-.leaflet-areaselect-btn-border-o.btn-navy:hover {
+.leaflet-areaselect-btn-border-o.leaflet-areaselect-btn-navy:hover {
   color: #34495e;
 }
