@@ -5,9 +5,8 @@ L.AreaSelect = L.Class.extend({
         width: 200,
         height: 300,
         keepAspectRatio: false,
-        btn: { 
-            visible: false,
-            className: 'btn btn-navy btn-border-o',
+        btn: {
+            className: 'leaflet-areaselect-btn leaflet-areaselect-btn-navy leaflet-areaselect-btn-border-o',
             position: 'bottom',
             message: 'Select area...'
         }
@@ -82,7 +81,7 @@ L.AreaSelect = L.Class.extend({
         this._neHandle = L.DomUtil.create("div", "leaflet-areaselect-handle", this._container);
         this._seHandle = L.DomUtil.create("div", "leaflet-areaselect-handle", this._container);
 
-        if(this.options.btn.visible){
+        if(this.options.btn){
             this._createBtn();
         }
         
