@@ -30,6 +30,9 @@ Example Code
         console.log("Bounds:", this.getBounds());
     });
     
+    // Set the dimensions of the box
+    areaSelect.setDimensions({width: 500, height: 500})
+
     // And to remove it do:
     //areaSelect.remove();
 

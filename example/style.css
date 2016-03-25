@@ -28,3 +28,7 @@ html, body {
 #result input[type='text'] {
     width: 260px;
 }
+.left, .right {
+    float: left;
+    width: 50%;
+}
