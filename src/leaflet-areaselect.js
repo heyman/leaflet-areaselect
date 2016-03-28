@@ -50,8 +50,8 @@ L.AreaSelect = L.Class.extend({
         if (!dimensions)
             return;
 
-        this._height = dimensions.height || this._height;
-        this._width = dimensions.width || this._width;
+        this._height = parseInt(dimensions.height) || this._height;
+        this._width = parseInt(dimensions.width) || this._width;
         this._render();
     },
 
