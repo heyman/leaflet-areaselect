@@ -8,13 +8,23 @@
 <body>
     <div id="map"></div>    
     <div id="result">
-        South west:<br>
-        <input type="text" class="sw"><br>
-        
-        North east:<br>
-        <input type="text" class="ne">
-        
-        <button id="remove">Remove</button>
+        <div class="left">
+            South west:<br>
+            <input type="text" class="sw"><br>
+            
+            North east:<br>
+            <input type="text" class="ne">
+            
+            <button id="remove">Remove</button>            
+        </div>
+        <div class="right">
+            Width:<br>
+            <input type="text" class="width" /><br>
+
+            Height:<br>
+            <input type="text" class="height" />       
+            <button id="setDimensions">Set Dimensions</button>     
+        </div>
     </div>
     <a href="https://github.com/heyman/leaflet-areaselect"><img style="position:absolute; top:0; right:0; border:0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
     
@@ -39,5 +49,9 @@
         $("#remove").click(function() {
             areaSelect.remove();
         });
+
+        $("#setDimensions").click(function () {
+            areaSelect.setDimensions({width: $('.width').val(), height: $('.height').val})
+        })
     </script>
 </body>
