@@ -48,11 +48,11 @@ L.AreaSelect = L.Class.extend({
     
     setDimensions: function(dimensions) {
         if (!dimensions)
-            return
+            return;
 
-        this._height = dimensions.height || this._height
-        this._width = dimensions.width || this._width
-        this._render()
+        this._height = dimensions.height || this._height;
+        this._width = dimensions.width || this._width;
+        this._render();
     },
 
     
