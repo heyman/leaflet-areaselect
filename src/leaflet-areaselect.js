@@ -91,6 +91,7 @@ L.AreaSelect = L.Class.extend({
         var self = this;
         function onMouseDown(event) {
             event.stopPropagation();
+            self.map.dragging.disable();
             L.DomEvent.removeListener(this, "mousedown", onMouseDown);
             var curX = event.pageX;
             var curY = event.pageY;
@@ -119,6 +120,7 @@ L.AreaSelect = L.Class.extend({
                 self._render();
             }
             function onMouseUp(event) {
+                self.map.dragging.enable();
                 L.DomEvent.removeListener(self.map, "mouseup", onMouseUp);
                 L.DomEvent.removeListener(self.map, "mousemove", onMouseMove);
                 L.DomEvent.addListener(handle, "mousedown", onMouseDown);
