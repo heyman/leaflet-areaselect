@@ -62,15 +62,15 @@ L.AreaSelect = L.Class.extend({
             return;
         
         this._container = L.DomUtil.create("div", "leaflet-areaselect-container", this.map._controlContainer)
-        this._topShade = L.DomUtil.create("div", "leaflet-areaselect-shade", this._container);
-        this._bottomShade = L.DomUtil.create("div", "leaflet-areaselect-shade", this._container);
-        this._leftShade = L.DomUtil.create("div", "leaflet-areaselect-shade", this._container);
-        this._rightShade = L.DomUtil.create("div", "leaflet-areaselect-shade", this._container);
+        this._topShade = L.DomUtil.create("div", "leaflet-areaselect-shade leaflet-control", this._container);
+        this._bottomShade = L.DomUtil.create("div", "leaflet-areaselect-shade leaflet-control", this._container);
+        this._leftShade = L.DomUtil.create("div", "leaflet-areaselect-shade leaflet-control", this._container);
+        this._rightShade = L.DomUtil.create("div", "leaflet-areaselect-shade leaflet-control", this._container);
         
-        this._nwHandle = L.DomUtil.create("div", "leaflet-areaselect-handle", this._container);
-        this._swHandle = L.DomUtil.create("div", "leaflet-areaselect-handle", this._container);
-        this._neHandle = L.DomUtil.create("div", "leaflet-areaselect-handle", this._container);
-        this._seHandle = L.DomUtil.create("div", "leaflet-areaselect-handle", this._container);
+        this._nwHandle = L.DomUtil.create("div", "leaflet-areaselect-handle leaflet-control", this._container);
+        this._swHandle = L.DomUtil.create("div", "leaflet-areaselect-handle leaflet-control", this._container);
+        this._neHandle = L.DomUtil.create("div", "leaflet-areaselect-handle leaflet-control", this._container);
+        this._seHandle = L.DomUtil.create("div", "leaflet-areaselect-handle leaflet-control", this._container);
         
         this._setUpHandlerEvents(this._nwHandle);
         this._setUpHandlerEvents(this._neHandle, -1, 1);
@@ -91,6 +91,7 @@ L.AreaSelect = L.Class.extend({
         var self = this;
         function onMouseDown(event) {
             event.stopPropagation();
+            self.map.dragging.disable();
             L.DomEvent.removeListener(this, "mousedown", onMouseDown);
             var curX = event.pageX;
             var curY = event.pageY;
@@ -119,6 +120,7 @@ L.AreaSelect = L.Class.extend({
                 self._render();
             }
             function onMouseUp(event) {
+                self.map.dragging.enable();
                 L.DomEvent.removeListener(self.map, "mouseup", onMouseUp);
                 L.DomEvent.removeListener(self.map, "mousemove", onMouseMove);
                 L.DomEvent.addListener(handle, "mousedown", onMouseDown);
