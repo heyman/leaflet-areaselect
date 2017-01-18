@@ -100,7 +100,7 @@ L.AreaSelect = L.Class.extend({
             
             function onMouseMove(event) {
                 if (self.options.keepAspectRatio) {
-                    var maxHeight = (self._height >= self._width ? size.y : size.y * (1/ratio) ) - 30;
+                    var maxHeight = (self._height >= self._width ? size.y : (size.x / ratio) ) - 30;
                     self._height += (curY - event.originalEvent.pageY) * 2 * yMod;
                     self._height = Math.max(30, self._height);
                     self._height = Math.min(maxHeight, self._height);
