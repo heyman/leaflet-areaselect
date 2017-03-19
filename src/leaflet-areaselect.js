@@ -56,6 +56,15 @@ L.AreaSelect = L.Class.extend({
         this.fire("change");
     },
 
+    /**
+     * Get Dimensions Function: To get current areaselect size and return with the default setDimensions Format
+     */
+    getDimensions: function() {
+        return {
+            'width': this._width,
+            'height': this._height
+        }; 
+    },
     
     _createElements: function() {
         if (!!this._container)
