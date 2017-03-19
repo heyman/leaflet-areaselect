@@ -36,6 +36,9 @@ Example Code
     // And to remove it do:
     //areaSelect.remove();
 
+    // Get Current dimensions of box and use it to set other box
+    var dimensions = areaSelect.getDimensions();
+
 **You can also make it keep the aspect ratio:**
 
 .. code-block:: javascript
