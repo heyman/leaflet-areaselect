@@ -6,30 +6,32 @@
     <link rel="stylesheet" href="../src/leaflet-areaselect.css" />
 </head>
 <body>
-    <div id="map"></div>    
+    <div id="map"></div>
     <div id="result">
         <div class="left">
             South west:<br>
             <input type="text" class="sw"><br>
-            
+
             North east:<br>
             <input type="text" class="ne">
-            
-            <button id="remove">Remove</button>            
+
+            <button id="remove">Remove</button>
         </div>
         <div class="right">
             Width:<br>
             <input type="text" class="width" /><br>
 
             Height:<br>
-            <input type="text" class="height" />       
-            <button id="setDimensions">Set Dimensions</button>     
+            <input type="text" class="height" />
+            <button id="setDimensions">Set Dimensions</button>
         </div>
     </div>
     <a href="https://github.com/heyman/leaflet-areaselect"><img style="position:absolute; top:0; right:0; border:0; z-index: 1000;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
-    
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
+      integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
+      crossorigin=""></script>
     <script src="../src/leaflet-areaselect.js"></script>
     <script>
         // initialize map
@@ -37,7 +39,7 @@
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
-        
+        debugger;
         var areaSelect = L.areaSelect({width:200, height:250});
         areaSelect.on("change", function() {
             var bounds = this.getBounds();
@@ -45,7 +47,7 @@
             $("#result .ne").val(bounds.getNorthEast().lat + ", " + bounds.getNorthEast().lng);
         });
         areaSelect.addTo(map);
-        
+
         $("#remove").click(function() {
             areaSelect.remove();
         });
