@@ -12,12 +12,6 @@ L.AreaSelect = L.Class.extend({
 
         this._width = this.options.width;
         this._height = this.options.height;
-
-        // make touch events simulate mouse events via _touchHandler
-        document.addEventListener("touchstart", this._touchHandler, true);
-        document.addEventListener("touchmove", this._touchHandler, true);
-        document.addEventListener("touchend", this._touchHandler, true);
-        document.addEventListener("touchcancel", this._touchHandler, true);
     },
 
     addTo: function(map) {
@@ -137,6 +131,12 @@ L.AreaSelect = L.Class.extend({
             L.DomEvent.addListener(self.map, "mouseup", onMouseUp);
         }
         L.DomEvent.addListener(handle, "mousedown", onMouseDown);
+
+         // make touch events simulate mouse events via _touchHandler
+        handle.addEventListener("touchstart", this._touchHandler, true);
+        handle.addEventListener("touchmove", this._touchHandler, true);
+        handle.addEventListener("touchend", this._touchHandler, true);
+        handle.addEventListener("touchcancel", this._touchHandler, true);
     },
 
     _onMapResize: function() {
