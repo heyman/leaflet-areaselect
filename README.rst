@@ -47,7 +47,7 @@ See it in action
 ================
 
 Check out the `bundled example <http://heyman.github.com/leaflet-areaselect/example/>`_, 
-or `this JSFiddle <http://jsfiddle.net/heyman/3N2DN/>`_ where I've set *keepAspectRatio:true*.
+or `this JSFiddle <https://jsfiddle.net/3N2DN/133/>`_ where I've set *keepAspectRatio:true*.
 
 Author
 ======
