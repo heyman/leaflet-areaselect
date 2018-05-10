@@ -57,6 +57,14 @@ L.AreaSelect = L.Class.extend({
     },
 
     
+    getDimensions: function () {
+        return {
+            height: this._height,
+            width: this._width
+        };
+    },
+	
+	
     _createElements: function() {
         if (!!this._container)
             return;
