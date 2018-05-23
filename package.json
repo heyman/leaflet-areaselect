@@ -1,0 +1,11 @@
+{
+  "name": "leaflet-areaselect",
+  "version": "0.0.0",
+  "description": "Leaflet area select.",
+  "main": "./src/leaflet-areaselect.js",
+  "scripts": {
+  },
+  "dependencies": {
+  },
+  "license": "MIT"
+}

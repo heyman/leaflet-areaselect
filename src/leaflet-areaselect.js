@@ -1,4 +1,4 @@
-L.AreaSelect = L.Class.extend({
+L.AreaSelect = L.Evented.extend({
     includes: L.Mixin.Events,
     
     options: {
