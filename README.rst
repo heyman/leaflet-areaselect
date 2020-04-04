@@ -41,6 +41,12 @@ Example Code
 .. code-block:: javascript
 
     var areaSelect = L.areaSelect({width:200, height:300, keepAspectRatio:true});
+    
+**If you need the coordinates for all four corners of the bounding box:**
+
+.. code-block:: javascript
+
+    var bboxCoordinates = areaSelect.getBBoxCoordinates();
 
 
 See it in action
