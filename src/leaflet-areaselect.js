@@ -1,5 +1,5 @@
 L.AreaSelect = L.Class.extend({
-    includes: L.Mixin.Events,
+    includes: L.Evented.prototype,
     
     options: {
         width: 200,
