@@ -37,6 +37,35 @@ L.AreaSelect = L.Class.extend({
         return new L.LatLngBounds(sw, ne);
     },
     
+    getBBoxCoordinates: function() {
+        var size = this.map.getSize();
+      
+        var topRight = new L.Point();
+        var bottomLeft = new L.Point();
+        var topLeft = new L.Point();
+        var bottomRight = new L.Point();
+
+        bottomLeft.x = Math.round((size.x - this._width) / 2);
+        topRight.y = Math.round((size.y - this._height) / 2);
+        topRight.x = size.x - bottomLeft.x;
+        bottomLeft.y = size.y - topRight.y;
+
+        topLeft.x = bottomLeft.x;
+        topLeft.y = topRight.y;
+        bottomRight.x = topRight.x;
+        bottomRight.y = bottomLeft.y;
+
+        var coordinates = 
+            [
+                {"sw": this.map.containerPointToLatLng(bottomLeft)},
+                {"nw": this.map.containerPointToLatLng(topLeft)},
+                {"ne": this.map.containerPointToLatLng(topRight)},
+                {"se": this.map.containerPointToLatLng(bottomRight)}
+            ]
+		
+        return coordinates
+    },
+    
     remove: function() {
         this.map.off("moveend", this._onMapChange);
         this.map.off("zoomend", this._onMapChange);
