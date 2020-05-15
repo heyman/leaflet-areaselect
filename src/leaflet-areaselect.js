@@ -147,13 +147,14 @@ L.AreaSelect = L.Class.extend({
                 curX = event.originalEvent.pageX;
                 curY = event.originalEvent.pageY;
                 self._render();
+                self.fire("changing");
             }
             function onMouseUp(event) {
                 self.map.dragging.enable();
                 L.DomEvent.removeListener(self.map, "mouseup", onMouseUp);
                 L.DomEvent.removeListener(self.map, "mousemove", onMouseMove);
                 L.DomEvent.addListener(handle, "mousedown", onMouseDown);
-                self.fire("change");
+                self.fire("change", {prevEvent: event});
             }
             
             L.DomEvent.addListener(self.map, "mousemove", onMouseMove);
@@ -166,8 +167,8 @@ L.AreaSelect = L.Class.extend({
         this._render();
     },
     
-    _onMapChange: function() {
-        this.fire("change");
+    _onMapChange: function(event) {
+        this.fire("change", {prevEvent: event});
     },
     
     _render: function() {
