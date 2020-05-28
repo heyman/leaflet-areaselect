@@ -1,0 +1,23 @@
+{
+  "name": "leaflet-areaselect",
+  "version": "1.0.0",
+  "description": "================== Leaflet AreaSelect ==================",
+  "main": "/src/leaflet-areaselect.js",
+  "css": "/src/leaflet-areaselect.css",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ebrensi/leaflet-areaselect.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ebrensi/leaflet-areaselect/issues"
+  },
+  "homepage": "https://github.com/ebrensi/leaflet-areaselect#readme"
+}
