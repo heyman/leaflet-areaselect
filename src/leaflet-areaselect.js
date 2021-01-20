@@ -125,44 +125,44 @@ L.AreaSelect = L.Class.extend({
         function onMouseDown(event) {
             event.stopPropagation();
             self.map.dragging.disable();
-            L.DomEvent.removeListener(this, "mousedown", onMouseDown);
+            L.DomEvent.removeListener(this, "touchstart", onMouseDown);
             var curX = event.pageX;
             var curY = event.pageY;
             var ratio = self._width / self._height;
             var size = self.map.getSize();
+            var mapContainer = self.map.getContainer();
             
             function onMouseMove(event) {
                 if (self.options.keepAspectRatio) {
                     var maxHeight = (self._height >= self._width ? size.y : size.y * (1/ratio) ) - Math.max(self.options.minVerticalSpacing, self.options.minHorizontalSpacing);
-                    self._height += (curY - event.originalEvent.pageY) * 2 * yMod;
+                    self._height += (curY - event.pageY) * 2 * yMod;
                     self._height = Math.max(self.options.minHeight, self.options.minWidth, self._height);
                     self._height = Math.min(maxHeight, self._height);
                     self._width = self._height * ratio;
                 } else {
-                    self._width += (curX - event.originalEvent.pageX) * 2 * xMod;
-                    self._height += (curY - event.originalEvent.pageY) * 2 * yMod;
+                    self._width += (curX - event.pageX) * 2 * xMod;
+                    self._height += (curY - event.pageY) * 2 * yMod;
                     self._width = Math.max(self.options.minWidth, self._width);
                     self._height = Math.max(self.options.minHeight, self._height);
                     self._width = Math.min(size.x-self.options.minHorizontalSpacing, self._width);
                     self._height = Math.min(size.y-self.options.minVerticalSpacing, self._height);
                 }
                 
-                curX = event.originalEvent.pageX;
-                curY = event.originalEvent.pageY;
+                curX = event.pageX;
+                curY = event.pageY;
                 self._render();
             }
             function onMouseUp(event) {
                 self.map.dragging.enable();
-                L.DomEvent.removeListener(self.map, "mouseup", onMouseUp);
-                L.DomEvent.removeListener(self.map, "mousemove", onMouseMove);
-                L.DomEvent.addListener(handle, "mousedown", onMouseDown);
+                L.DomEvent.removeListener(mapContainer, "touchend", onMouseUp);
+                L.DomEvent.removeListener(mapContainer, "touchmove", onMouseMove);
+                L.DomEvent.addListener(handle, "touchstart", onMouseDown);
                 self.fire("change");
             }
-            
-            L.DomEvent.addListener(self.map, "mousemove", onMouseMove);
-            L.DomEvent.addListener(self.map, "mouseup", onMouseUp);
+            L.DomEvent.addListener(mapContainer, "touchmove", onMouseMove);
+            L.DomEvent.addListener(mapContainer, "touchend", onMouseUp);
         }
-        L.DomEvent.addListener(handle, "mousedown", onMouseDown);
+        L.DomEvent.addListener(handle, "touchstart", onMouseDown);
     },
     
     _onMapResize: function() {
