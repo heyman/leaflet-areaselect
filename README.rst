@@ -19,7 +19,7 @@ Example Code
 .. code-block:: javascript
 
     // Add it to the map
-    var areaSelect = L.areaSelect({width:200, height:300});
+    var areaSelect = L.areaSelect({width:200, height:300, minWidth:40, minHeight:40, minHorizontalSpacing:40, minVerticalSpacing:100});
     areaSelect.addTo(map);
     
     // Read the bouding box

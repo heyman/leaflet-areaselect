@@ -1,9 +1,13 @@
 L.AreaSelect = L.Class.extend({
     includes: L.Evented.prototype,
-    
+
     options: {
         width: 200,
         height: 300,
+        minWidth: 30,
+        minHeight: 30,
+        minHorizontalSpacing: 30,
+        minVerticalSpacing: 30,
         keepAspectRatio: false,
     },
 
@@ -129,19 +133,18 @@ L.AreaSelect = L.Class.extend({
             
             function onMouseMove(event) {
                 if (self.options.keepAspectRatio) {
-                    var maxHeight = (self._height >= self._width ? size.y : size.y * (1/ratio) ) - 30;
+                    var maxHeight = (self._height >= self._width ? size.y : size.y * (1/ratio) ) - Math.max(self.options.minVerticalSpacing, self.options.minHorizontalSpacing);
                     self._height += (curY - event.originalEvent.pageY) * 2 * yMod;
-                    self._height = Math.max(30, self._height);
+                    self._height = Math.max(self.options.minHeight, self.options.minWidth, self._height);
                     self._height = Math.min(maxHeight, self._height);
                     self._width = self._height * ratio;
                 } else {
                     self._width += (curX - event.originalEvent.pageX) * 2 * xMod;
                     self._height += (curY - event.originalEvent.pageY) * 2 * yMod;
-                    self._width = Math.max(30, self._width);
-                    self._height = Math.max(30, self._height);
-                    self._width = Math.min(size.x-30, self._width);
-                    self._height = Math.min(size.y-30, self._height);
-                    
+                    self._width = Math.max(self.options.minWidth, self._width);
+                    self._height = Math.max(self.options.minHeight, self._height);
+                    self._width = Math.min(size.x-self.options.minHorizontalSpacing, self._width);
+                    self._height = Math.min(size.y-self.options.minVerticalSpacing, self._height);
                 }
                 
                 curX = event.originalEvent.pageX;
