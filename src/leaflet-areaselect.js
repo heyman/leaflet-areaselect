@@ -124,6 +124,7 @@ L.AreaSelect = L.Class.extend({
         var self = this;
         function onMouseDown(event) {
             event.stopPropagation();
+            event.preventDefault();
             self.map.dragging.disable();
             L.DomEvent.removeListener(this, "touchstart", onMouseDown);
             var curX = event.pageX;
