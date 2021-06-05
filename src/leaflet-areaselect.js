@@ -9,6 +9,7 @@ L.AreaSelect = L.Class.extend({
         minHorizontalSpacing: 30,
         minVerticalSpacing: 30,
         keepAspectRatio: false,
+        showPixel: false
     },
 
     initialize: function(options) {
@@ -104,6 +105,24 @@ L.AreaSelect = L.Class.extend({
         this._swHandle = L.DomUtil.create("div", "leaflet-areaselect-handle leaflet-control", this._container);
         this._neHandle = L.DomUtil.create("div", "leaflet-areaselect-handle leaflet-control", this._container);
         this._seHandle = L.DomUtil.create("div", "leaflet-areaselect-handle leaflet-control", this._container);
+        
+        if (this.options.showPixel) {
+            this._bottomPixel = L.DomUtil.create("div", "leaflet-areaselect-pixel", this._bottomShade);
+            this._widthPrefix = L.DomUtil.create("span", "leaflet-areaselect-text", this._bottomPixel);
+            this._widthInput = L.DomUtil.create("input", "leaflet-areaselect-input", this._bottomPixel);
+            this._widthPostfix = L.DomUtil.create("span", "leaflet-areaselect-text", this._bottomPixel);
+            this._heightPrefix = L.DomUtil.create("span", "leaflet-areaselect-text", this._bottomPixel);
+            this._heightInput = L.DomUtil.create("input", "leaflet-areaselect-input", this._bottomPixel);
+            this._heightPostfix = L.DomUtil.create("span", "leaflet-areaselect-text", this._bottomPixel);
+
+            this._widthInput.setAttribute("readonly", true);
+            this._heightInput.setAttribute("readonly", true);
+
+            this._widthPrefix.innerHTML = "w:";
+            this._widthPostfix.innerHTML = " px, ";
+            this._heightPrefix.innerHTML = " h:";
+            this._heightPostfix.innerHTML = " px";
+        }
         
         this._setUpHandlerEvents(this._nwHandle);
         this._setUpHandlerEvents(this._neHandle, -1, 1);
@@ -208,6 +227,11 @@ L.AreaSelect = L.Class.extend({
         setDimensions(this._neHandle, {right:leftRightWidth-handleOffset, top:topBottomHeight-7});
         setDimensions(this._swHandle, {left:leftRightWidth-handleOffset, bottom:topBottomHeight-7});
         setDimensions(this._seHandle, {right:leftRightWidth-handleOffset, bottom:topBottomHeight-7});
+        
+        if (this.options.showPixel) {
+            this._widthInput.value = this._width;
+            this._heightInput.value = this._height;
+        }
     }
 });
 

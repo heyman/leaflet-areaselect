@@ -13,3 +13,29 @@
     height: 14px;
     cursor: move;
 }
+
+.leaflet-areaselect-pixel {
+    position: relative;
+    width: 150px;
+    background-color: black;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    top:10px;
+    margin: 0px auto;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.leaflet-areaselect-text {
+    color: lightgray;
+}
+
+.leaflet-areaselect-input{
+    position: relative;
+    background-color: black;
+    border: none;
+    color: white;
+    text-align: right;
+    width: 35px;
+}
