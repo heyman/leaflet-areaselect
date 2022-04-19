@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "================== Leaflet AreaSelect ==================",
   "main": "src/leaflet-areaselect.js",
-  "css": "src/leaflet-areaselect.css",
+  "style": "src/leaflet-areaselect.css",
+  "types": "src/leaflet-areaselect.d.ts",
   "directories": {
     "example": "example"
   },
