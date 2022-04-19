@@ -34,28 +34,28 @@ L.AreaSelect = L.Class.extend({
     },
     
     getBounds: function() {
-        var size = this.map.getSize();
-        var topRight = new L.Point();
-        var bottomLeft = new L.Point();
+        const size = this.map.getSize();
+        const topRight = new L.Point();
+        const bottomLeft = new L.Point();
         
         bottomLeft.x = Math.round((size.x - this._width) / 2);
         topRight.y = Math.round((size.y - this._height) / 2);
         topRight.x = size.x - bottomLeft.x;
         bottomLeft.y = size.y - topRight.y;
         
-        var sw = this.map.containerPointToLatLng(bottomLeft);
-        var ne = this.map.containerPointToLatLng(topRight);
+        const sw = this.map.containerPointToLatLng(bottomLeft);
+        const ne = this.map.containerPointToLatLng(topRight);
         
         return new L.LatLngBounds(sw, ne);
     },
     
     getBBoxCoordinates: function() {
-        var size = this.map.getSize();
+        const size = this.map.getSize();
       
-        var topRight = new L.Point();
-        var bottomLeft = new L.Point();
-        var topLeft = new L.Point();
-        var bottomRight = new L.Point();
+        const topRight = new L.Point();
+        const bottomLeft = new L.Point();
+        const topLeft = new L.Point();
+        const bottomRight = new L.Point();
 
         bottomLeft.x = Math.round((size.x - this._width) / 2);
         topRight.y = Math.round((size.y - this._height) / 2);
@@ -67,7 +67,7 @@ L.AreaSelect = L.Class.extend({
         bottomRight.x = topRight.x;
         bottomRight.y = bottomLeft.y;
 
-        var coordinates = 
+        const coordinates =
             [
                 {"sw": this.map.containerPointToLatLng(bottomLeft)},
                 {"nw": this.map.containerPointToLatLng(topLeft)},
@@ -123,20 +123,20 @@ L.AreaSelect = L.Class.extend({
         xMod = xMod || 1;
         yMod = yMod || 1;
         
-        var self = this;
+        const self = this;
         function onPointerDown(event) {
             event.stopPropagation();
             self.map.dragging.disable();
             L.DomEvent.removeListener(this, "onpointerdown", onPointerDown);
-            var curX = event.pageX;
-            var curY = event.pageY;
-            var ratio = self._width / self._height;
-            var size = self.map.getSize();
-            var mapContainer = self.map.getContainer();
+            let curX = event.pageX;
+            let curY = event.pageY;
+            const ratio = self._width / self._height;
+            const size = self.map.getSize();
+            const mapContainer = self.map.getContainer();
             
             function onPointerMove(event) {
                 if (self.options.keepAspectRatio) {
-                    var maxHeight = (self._height >= self._width ? size.y : size.y * (1/ratio) ) - Math.max(self.options.minVerticalSpacing, self.options.minHorizontalSpacing);
+                    const maxHeight = (self._height >= self._width ? size.y : size.y * (1/ratio) ) - Math.max(self.options.minVerticalSpacing, self.options.minHorizontalSpacing);
                     self._height += (curY - event.pageY) * 2 * yMod;
                     self._height = Math.max(self.options.minHeight, self.options.minWidth, self._height);
                     self._height = Math.min(maxHeight, self._height);
@@ -176,11 +176,10 @@ L.AreaSelect = L.Class.extend({
     },
     
     _render: function() {
-        var size = this.map.getSize();
-        var handleOffset = Math.round(this._nwHandle.offsetWidth/2);
-        
-        var topBottomHeight = Math.round((size.y-this._height)/2);
-        var leftRightWidth = Math.round((size.x-this._width)/2);
+        const size = this.map.getSize();
+        const handleOffset = Math.round(this._nwHandle.offsetWidth/2);
+        const topBottomHeight = Math.round((size.y-this._height)/2);
+        const leftRightWidth = Math.round((size.x-this._width)/2);
         
         function setDimensions(element, dimension) {
             element.style.width = dimension.width + "px";
