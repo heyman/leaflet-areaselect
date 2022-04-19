@@ -20,7 +20,15 @@ L.AreaSelect = L.Class.extend({
     
     addTo: function(map) {
         this.map = map;
-        this._createElements();
+        if (this._container)
+            this.map._controlContainer.appendChild(this._container)
+        else
+            this._createElements();
+        this.map.on("moveend", this._onMapChange, this);
+        this.map.on("zoomend", this._onMapChange, this);
+        this.map.on("resize", this._onMapResize, this);
+
+        this.fire("change");
         this._render();
         return this;
     },
@@ -109,12 +117,6 @@ L.AreaSelect = L.Class.extend({
         this._setUpHandlerEvents(this._neHandle, -1, 1);
         this._setUpHandlerEvents(this._swHandle, 1, -1);
         this._setUpHandlerEvents(this._seHandle, -1, -1);
-        
-        this.map.on("moveend", this._onMapChange, this);
-        this.map.on("zoomend", this._onMapChange, this);
-        this.map.on("resize", this._onMapResize, this);
-        
-        this.fire("change");
     },
     
     _setUpHandlerEvents: function(handle, xMod, yMod) {
