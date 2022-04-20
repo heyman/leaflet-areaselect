@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/ebrensi/leaflet-areaselect/issues"
   },
-  "homepage": "https://github.com/ebrensi/leaflet-areaselect#readme"
+  "homepage": "https://github.com/ebrensi/leaflet-areaselect#readme",
+  "prettier": {
+    "semi": false
+  }
 }

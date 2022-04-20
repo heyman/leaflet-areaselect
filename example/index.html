@@ -1,75 +1,88 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.0/dist/leaflet.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.0/dist/leaflet.css"
+    />
     <link rel="stylesheet" href="../src/leaflet-areaselect.css" />
-</head>
-<body>
+  </head>
+  <body>
     <div id="map"></div>
     <div id="result">
-        <div class="left">
-            South west:<br>
-            <input type="text" class="sw"><br>
+      <div class="left">
+        South west:<br />
+        <input type="text" class="sw" /><br />
 
-            North east:<br>
-            <input type="text" class="ne">
+        North east:<br />
+        <input type="text" class="ne" />
 
-            <button id="addRemove">Remove</button>
-        </div>
-        <div class="right">
-            Width:<br>
-            <input type="text" class="width" /><br>
+        <button id="addRemove">Remove</button>
+      </div>
+      <div class="right">
+        Width:<br />
+        <input type="text" class="width" /><br />
 
-            Height:<br>
-            <input type="text" class="height" />
-            <button id="setDimensions">Set Dimensions</button>
-        </div>
+        Height:<br />
+        <input type="text" class="height" />
+        <button id="setDimensions">Set Dimensions</button>
+      </div>
     </div>
-    <a href="https://github.com/heyman/leaflet-areaselect"><img style="position:absolute; top:0; right:0; border:0; z-index: 1000;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+    <a href="https://github.com/heyman/leaflet-areaselect"
+      ><img
+        style="position: absolute; top: 0; right: 0; border: 0; z-index: 1000"
+        src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"
+        alt="Fork me on GitHub"
+    /></a>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.7.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="../src/leaflet-areaselect.js"></script>
     <script>
-        // initialize map
-        const map = L.map('map').setView([38, 0], 2);
-        L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+      // initialize map
+      const map = L.map("map").setView([38, 0], 2)
+      L.tileLayer("https://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map)
 
-        const swTextbox = document.querySelector("#result .left .sw")
-        const neTextbox = document.querySelector("#result .left .ne")
+      const swTextbox = document.querySelector("#result .left .sw")
+      const neTextbox = document.querySelector("#result .left .ne")
 
-        const widthTextbox = document.querySelector("#result .right .width")
-        const heighTextbox = document.querySelector("#result .right .height")
+      const widthTextbox = document.querySelector("#result .right .width")
+      const heighTextbox = document.querySelector("#result .right .height")
 
-        const addRemoveButton = document.querySelector("#addRemove")
-        const setDimsButton = document.querySelector("#setDimensions")
+      const addRemoveButton = document.querySelector("#addRemove")
+      const setDimsButton = document.querySelector("#setDimensions")
 
-        const areaSelect = L.areaSelect({width:200, height:250});
-        areaSelect.on("change", function() {
-            const bounds = areaSelect.getBounds();
-            swTextbox.value = (bounds.getSouthWest().lat + ", " + bounds.getSouthWest().lng);
-            neTextbox.value = (bounds.getNorthEast().lat + ", " + bounds.getNorthEast().lng);
-        });
-        areaSelect.addTo(map);
-        let added = true
+      const areaSelect = L.areaSelect({ width: 200, height: 250 })
+      areaSelect.on("change", function () {
+        const bounds = areaSelect.getBounds()
+        swTextbox.value =
+          bounds.getSouthWest().lat + ", " + bounds.getSouthWest().lng
+        neTextbox.value =
+          bounds.getNorthEast().lat + ", " + bounds.getNorthEast().lng
+      })
+      areaSelect.addTo(map)
+      let added = true
 
-        addRemoveButton.onclick = () => {
-            if (added) {
-                areaSelect.remove()
-                addRemoveButton.innerText = "Add"
-            } else {
-                areaSelect.addTo(map)
-                addRemoveButton.innerText = "Remove"
-            }
-            added = !added
+      addRemoveButton.onclick = () => {
+        if (added) {
+          areaSelect.remove()
+          addRemoveButton.innerText = "Add"
+        } else {
+          areaSelect.addTo(map)
+          addRemoveButton.innerText = "Remove"
         }
+        added = !added
+      }
 
-        setDimsButton.onclick = function () {
-            areaSelect.setDimensions({width: widthTextbox.value, height: heighTextbox.value})
-        }
-
+      setDimsButton.onclick = function () {
+        areaSelect.setDimensions({
+          width: widthTextbox.value,
+          height: heighTextbox.value,
+        })
+      }
     </script>
-</body>
+  </body>
+</html>
