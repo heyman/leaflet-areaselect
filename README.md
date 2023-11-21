@@ -36,12 +36,6 @@ but doesn't support keeping the aspect ratio.
     var areaSelect = L.areaSelect({width:200, height:300, keepAspectRatio:true});
 ```
 
-**If you need the coordinates for all four corners of the bounding box:**
-
-```javascript
-    var bboxCoordinates = areaSelect.getBBoxCoordinates();
-```
-
 ## See it in action
 
 Check out the [bundled example](http://heyman.github.io/leaflet-areaselect/example/).
