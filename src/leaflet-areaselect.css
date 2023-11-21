@@ -1,6 +1,7 @@
 .leaflet-areaselect-shade {
     position: absolute;
     background: rgba(0,0,0, 0.4);
+    cursor: inherit;
 }
 .leaflet-areaselect-handle {
     position: absolute;
