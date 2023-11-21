@@ -41,7 +41,28 @@ L.AreaSelect = L.Class.extend({
         return new L.LatLngBounds(sw, ne);
     },
 
+    /**
+     * Adjust the map bounds to fit the desired selection, and resize the selection to match the bounds parameter.
+     * 
+     * Note that the actual bounds after running this function may not match the bounds parameter exactly, since 
+     * we're converting between pixels and latlng coordinates.
+     * 
+     * This method is not compatible with the keepAspectRatio option.
+     */
+    setBounds: function(bounds) {
+        bounds = L.latLngBounds(bounds);
+        this.map.fitBounds(bounds, {
+            animate: false,
+            paddingTopLeft: [this.options.minHorizontalSpacing/2, this.options.minVerticalSpacing/2],
+            paddingBottomRight:[this.options.minHorizontalSpacing/2, this.options.minVerticalSpacing/2],
+        });
 
+        let nwPx = this.map.latLngToLayerPoint(bounds.getNorthWest());
+        let sePx = this.map.latLngToLayerPoint(bounds.getSouthEast());
+        this.setDimensions({
+            width: sePx.x - nwPx.x,
+            height: sePx.y - nwPx.y,
+        })
     },
     
     remove: function() {

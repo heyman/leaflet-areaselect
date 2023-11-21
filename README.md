@@ -15,7 +15,7 @@ but doesn't support keeping the aspect ratio.
     var areaSelect = L.areaSelect({width:200, height:300, minWidth:40, minHeight:40, minHorizontalSpacing:40, minVerticalSpacing:100, keepAspectRatio:false});
     areaSelect.addTo(map);
     
-    // Read the bouding box
+    // Read the bounding box
     var bounds = areaSelect.getBounds();
     
     // Get a callback when the bounds change
@@ -30,10 +30,16 @@ but doesn't support keeping the aspect ratio.
     //areaSelect.remove();
 ```
 
-**You can also make it keep the aspect ratio:**
+### To make it keep the aspect ratio:
 
 ```javascript
     var areaSelect = L.areaSelect({width:200, height:300, keepAspectRatio:true});
+```
+
+### To set the selected area (not compatible with `keepAspectRatio:true`):
+
+```javascript
+    areaSelect.setBounds([{lat:59.2272559, lng:17.7606917}, {lat:59.4402838, lng:18.2000673}]);
 ```
 
 ## See it in action
