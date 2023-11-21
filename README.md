@@ -12,7 +12,7 @@ but doesn't support keeping the aspect ratio.
 ## Example Code
 ```javascript
     // Add it to the map
-    var areaSelect = L.areaSelect({width:200, height:300, minWidth:40, minHeight:40, minHorizontalSpacing:40, minVerticalSpacing:100});
+    var areaSelect = L.areaSelect({width:200, height:300, minWidth:40, minHeight:40, minHorizontalSpacing:40, minVerticalSpacing:100, keepAspectRatio:false});
     areaSelect.addTo(map);
     
     // Read the bouding box
@@ -44,8 +44,7 @@ but doesn't support keeping the aspect ratio.
 
 ## See it in action
 
-Check out the [bundled example](http://heyman.github.com/leaflet-areaselect/example/), 
-or this [JSFiddle](http://jsfiddle.net/heyman/3N2DN/) where I've set *keepAspectRatio:true*.
+Check out the [bundled example](http://heyman.github.io/leaflet-areaselect/example/).
 
 ## Author
 
