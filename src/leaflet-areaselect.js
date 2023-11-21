@@ -169,16 +169,16 @@ L.AreaSelect = L.Class.extend({
         }
         function onMouseUp(event) {
             dragEnd(event);
-            L.DomEvent.removeListener(mapContainer, "mousemove", onMouseMove);
-            L.DomEvent.removeListener(mapContainer, "mouseup", onMouseUp);
+            document.removeEventListener("mousemove", onMouseMove);
+            document.removeEventListener("mouseup", onMouseUp);
         }
         L.DomEvent.addListener(handle, "mousedown", (event) => {
             event.stopPropagation();
             event.preventDefault();
 
             dragStart(event.pageX, event.pageY)
-            L.DomEvent.addListener(mapContainer, "mousemove", onMouseMove);
-            L.DomEvent.addListener(mapContainer, "mouseup", onMouseUp);
+            document.addEventListener("mousemove", onMouseMove);
+            document.addEventListener("mouseup", onMouseUp);
         });
 
         // touch event listeners
