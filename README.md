@@ -30,13 +30,13 @@ but doesn't support keeping the aspect ratio.
     //areaSelect.remove();
 ```
 
-### To make it keep the aspect ratio:
+#### To make it keep the aspect ratio:
 
 ```javascript
     var areaSelect = L.areaSelect({width:200, height:300, keepAspectRatio:true});
 ```
 
-### To set the selected area (not compatible with `keepAspectRatio:true`):
+#### To set the selected area (not compatible with `keepAspectRatio:true`):
 
 ```javascript
     areaSelect.setBounds([{lat:59.2272559, lng:17.7606917}, {lat:59.4402838, lng:18.2000673}]);
