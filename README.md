@@ -1,4 +1,4 @@
-# Leaflet AreaSelect
+# Leaflet AreaSelect [![npm version](https://badge.fury.io/js/@jonatanheyman%2Fleaflet-areaselect.svg)](https://badge.fury.io/js/@jonatanheyman%2Fleaflet-areaselect)
 
 AreaSelect is a leaflet plugin for letting users select a square area (bounding box), 
 using a resizable centered box on top of the map. 
