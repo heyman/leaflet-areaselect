@@ -1,5 +1,5 @@
 {
-  "name": "@heyman/leaflet-areaselect",
+  "name": "@jonatanheyman/leaflet-areaselect",
   "version": "1.1.0",
   "description": "A fixed positioned, resizable rectangle for selecting an area on the map.",
   "main": "./src/leaflet-areaselect.js",
