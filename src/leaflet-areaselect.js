@@ -176,9 +176,11 @@ L.AreaSelect = L.Class.extend({
     _render: function() {
         var size = this.map.getSize();
         var handleOffset = Math.round(this._nwHandle.offsetWidth/2);
-        
-        var topBottomHeight = Math.round((size.y-this._height)/2);
-        var leftRightWidth = Math.round((size.x-this._width)/2);
+
+        var topBottomWidth = size.x
+        var topBottomHeight = Math.round((size.y - this._height) / 2);
+        var leftRightWidth = Math.round((size.x - this._width) / 2);
+        var leftRightHeight = size.y - (topBottomHeight * 2);
         
         function setDimensions(element, dimension) {
             element.style.width = dimension.width + "px";
@@ -188,20 +190,30 @@ L.AreaSelect = L.Class.extend({
             element.style.bottom = dimension.bottom + "px";
             element.style.right = dimension.right + "px";
         }
-        
-        setDimensions(this._topShade, {width:size.x, height:topBottomHeight, top:0, left:0});
-        setDimensions(this._bottomShade, {width:size.x, height:topBottomHeight, bottom:0, left:0});
+
+        setDimensions(this._topShade, {
+            width: topBottomWidth,
+            height: topBottomHeight,
+            top: 0,
+            left: 0
+        });
+        setDimensions(this._bottomShade, {
+            width: topBottomWidth,
+            height: topBottomHeight,
+            top: size.y - topBottomHeight,
+            left: 0
+        });
         setDimensions(this._leftShade, {
-            width: leftRightWidth, 
-            height: size.y-(topBottomHeight*2), 
-            top: topBottomHeight, 
+            width: leftRightWidth,
+            height: leftRightHeight,
+            top: topBottomHeight,
             left: 0
         });
         setDimensions(this._rightShade, {
-            width: leftRightWidth, 
-            height: size.y-(topBottomHeight*2), 
-            top: topBottomHeight, 
-            right: 0
+            width: leftRightWidth,
+            height: leftRightHeight,
+            top: topBottomHeight,
+            left: size.x - leftRightWidth
         });
         
         setDimensions(this._nwHandle, {left:leftRightWidth-handleOffset, top:topBottomHeight-7});
