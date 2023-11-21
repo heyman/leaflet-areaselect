@@ -59,15 +59,12 @@ L.AreaSelect = L.Class.extend({
         bottomRight.x = topRight.x;
         bottomRight.y = bottomLeft.y;
 
-        var coordinates = 
-            [
-                {"sw": this.map.containerPointToLatLng(bottomLeft)},
-                {"nw": this.map.containerPointToLatLng(topLeft)},
-                {"ne": this.map.containerPointToLatLng(topRight)},
-                {"se": this.map.containerPointToLatLng(bottomRight)}
-            ]
-		
-        return coordinates
+        return {
+            sw: this.map.containerPointToLatLng(bottomLeft),
+            nw: this.map.containerPointToLatLng(topLeft),
+            ne: this.map.containerPointToLatLng(topRight),
+            se: this.map.containerPointToLatLng(bottomRight),
+        }
     },
     
     remove: function() {
