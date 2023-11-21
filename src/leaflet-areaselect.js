@@ -143,7 +143,7 @@ L.AreaSelect = L.Class.extend({
         }
         function dragMove(pageX, pageY) {
             if (self.options.keepAspectRatio) {
-                var maxHeight = (self._height >= self._width ? size.y : size.y * (1/ratio) ) - Math.max(self.options.minVerticalSpacing, self.options.minHorizontalSpacing);
+                var maxHeight = (self._height >= self._width ? size.y : (size.x / ratio) ) - Math.max(self.options.minVerticalSpacing, self.options.minHorizontalSpacing);
                 self._height += (curY - pageY) * 2 * yMod;
                 self._height = Math.max(self.options.minHeight, self.options.minWidth, self._height);
                 self._height = Math.min(maxHeight, self._height);

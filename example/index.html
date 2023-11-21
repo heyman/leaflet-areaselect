@@ -39,7 +39,13 @@
             attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
         
-        var areaSelect = L.areaSelect({width:200, height:250});
+        var areaSelect = L.areaSelect({
+            width:200, 
+            height:250, 
+            //keepAspectRatio:true,
+            //minHorizontalSpacing: 80,
+            //minVerticalSpacing: 80,
+        });
         areaSelect.on("change", function() {
             var bounds = this.getBounds();
             $("#result .sw").val(bounds.getSouthWest().lat + ", " + bounds.getSouthWest().lng);
